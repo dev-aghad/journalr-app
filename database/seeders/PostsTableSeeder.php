@@ -27,7 +27,7 @@ class PostsTableSeeder extends Seeder
 
         $p = new Post;
         $p->title = "My experience with basketball";
-        $p->body= "Went to play basketball for the first time. I usually play football so it was quite fun.";
+        $p->body= "Went to play basketball for the first time.I usually play football so it was quite fun.";
         $p->user_id = 2;
         $p->save();
 

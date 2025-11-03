@@ -25,7 +25,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PostsTableSeeder::class);
         $this->call(CommentsTableSeeder::class);
         $this->call(TagsTableSeeder::class);
-        $this->call(PostsTagsTableSeeder::class);
 
         // Factories setup
         $users = User::factory(5)->has(Profile::factory())->create();
