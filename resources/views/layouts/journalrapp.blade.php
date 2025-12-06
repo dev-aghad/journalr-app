@@ -4,7 +4,30 @@
     <head>
 
     <body>
-        <h1>Journalr App - @yield('title')</h1>
+        <h1>Journalr - @yield('title')</h1>
+
+        @if (session('message'))
+            <p><b>{{ session('message') }}</b></p>
+        @endif
+
+        @auth
+        <form method="POST" action="{{ route('logout') }}">
+        @csrf
+            <button type="submit" class="text-red-500 hover:underline">
+                Logout
+            </button>
+        </form>
+        @endauth
+
+        @if ($errors->any())
+            <div>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif    
 
         <div>
             @yield('content')
