@@ -15,7 +15,7 @@
 
     <hr>
 
-    <p><b>Posts by: {{ $user->name }}</b></p>
+    <p><b>Posts: {{ $user->name }}</b></p>
 
     @if ($user->posts->count() == 0)
         <p>This user has no posts yet.</p>
@@ -25,6 +25,31 @@
                 <li>
                     <a href="{{ route('posts.show', $post) }}">
                         {{ $post->title }}</a>
+                </li>
+            @endforeach
+        </ul>
+    @endif
+
+    <p><b>Comments: {{ $user->name }}</b></p>
+
+    @if ($user->comments->isEmpty())
+        <p>This user has not written any comments yet.</p>
+    @else
+        <ul>
+            @foreach ($user->comments as $comment)
+                <li style="margin-bottom: 8px;">
+                    <b>On post:</b>
+
+                    <a href="{{ route('posts.show', $comment->post) }}">
+                        {{ $comment->post->title }}
+                    </a>
+
+                    <br>
+
+                    <b>Comment:</b>
+                    {{ $comment->body }}
+    
+                    <br>
                 </li>
             @endforeach
         </ul>

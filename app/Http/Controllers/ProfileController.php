@@ -19,7 +19,7 @@ class ProfileController extends Controller
      */
     public function show(User $user)
     {
-        $user->load(['profile', 'posts']);
+        $user->load(['profile', 'posts', 'comments.post']);
 
         return view('profile.show', compact('user'));
     }
