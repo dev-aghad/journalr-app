@@ -10,6 +10,8 @@ class Profile extends Model
 {
     use HasFactory;
 
+    protected $attributes = ['bio' => 'This user has not written a bio yet.',];
+
     public function user() 
     {
         return $this->belongsTo(User::class);

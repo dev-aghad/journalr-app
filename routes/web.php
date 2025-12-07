@@ -13,6 +13,8 @@ Route::get('/', function () {
 Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
 Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
 
+Route::get('/users/{user}', [ProfileController::class, 'show'])->name('profile.show');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/posts/{post}/like', [LikeController::class, 'store'])->name('like.store');
     Route::delete('/posts/{post}/like', [LikeController::class, 'destroy'])->name('like.destroy');

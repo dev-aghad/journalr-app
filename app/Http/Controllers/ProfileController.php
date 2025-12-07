@@ -8,9 +8,22 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\User;
+
+
 
 class ProfileController extends Controller
 {
+    /**
+     * Display the specified resource.
+     */
+    public function show(User $user)
+    {
+        $user->load(['profile', 'posts']);
+
+        return view('profile.show', compact('user'));
+    }
+
     /**
      * Display the user's profile form.
      */

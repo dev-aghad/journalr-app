@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
             $table->string('bio')->nullable();
-            $table->string('profile_picture')->nullable(); // choice of preset images
+            $table->string('profile_picture')->nullable();
             $table->bigInteger('user_id')->unsigned();
 
             $table->foreign('user_id')->references('id')->on('users')

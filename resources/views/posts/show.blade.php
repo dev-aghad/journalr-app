@@ -6,7 +6,9 @@
 
 @section('content')
     <ul>
-        <li>Posted by: {{ $post->user->name }}</li>
+        <li>Posted by: 
+            <a href="{{ route('profile.show', $post->user) }}">
+                {{ $post->user->name }}</a></li>
         <li>Title: {{ $post->title }}</li>
         <li>Body: {{ $post->body }}</li>
     </ul>
