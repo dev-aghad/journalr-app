@@ -25,6 +25,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     
     Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+    Route::post('/comments/{comment}/like', [LikeController::class, 'storeComment'])->name('comments.like');
+    Route::delete('/comments/{comment}/like', [LikeController::class, 'destroyComment'])->name('comments.unlike');
 });
 
 Route::get('/dashboard', function () {

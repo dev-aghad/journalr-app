@@ -78,11 +78,26 @@
     @foreach ($post->comments as $comment)
         <div style="margin-top: 10px; border-top: 1px solid #ccc; padding-top: 5px;">
             <p>
-                <strong>{{ $comment->user->name }}</strong> replied:
+                <b>{{ $comment->user->name }}</b> replied:
             </p>
             <p>{{ $comment->body }}</p>
 
+            <p>Likes: {{ $comment->likes->count() }}</p>
+
             @auth
+                @if ($comment->isLikedBy(auth()->user()))
+                    <form action="{{ route('comments.unlike', $comment) }}" method="POST" style="display:inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit">Unlike</button>
+                    </form>
+                @else
+                    <form action="{{ route('comments.like', $comment) }}" method="POST" style="display:inline">
+                        @csrf
+                        <button type="submit">Like</button>
+                    </form>
+                @endif
+
                 @if (auth()->id() === $comment->user_id)
                     <form action="{{ route('comments.destroy', $comment) }}" method="POST" style="display:inline">
                         @csrf

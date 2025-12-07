@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 
 class LikeController extends Controller
@@ -30,8 +31,19 @@ class LikeController extends Controller
     {
         $user = auth()->user();
 
-        if (! $post->isLikedBy($user)) {
+        if (!$post->isLikedBy($user)) {
             $post->likes()->create(['user_id' => $user->id,]);
+        }
+
+        return back();
+    }
+
+    public function storeComment(Request $request, Comment $comment)
+    {
+        $user = auth()->user();
+
+        if (!$comment->isLikedBy($user)) {
+            $comment->likes()->create(['user_id' => $user->id,]);
         }
 
         return back();
@@ -69,6 +81,15 @@ class LikeController extends Controller
         $user = auth()->user();
 
         $post->likes()->where('user_id', $user->id)->delete();
+
+        return back();
+    }
+
+    public function destroyComment(Comment $comment)
+    {
+        $user = auth()->user();
+
+        $comment->likes()->where('user_id', $user->id)->delete();
 
         return back();
     }
