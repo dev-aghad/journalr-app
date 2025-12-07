@@ -11,6 +11,27 @@
         <li>Body: {{ $post->body }}</li>
     </ul>
 
+    <p>Likes: {{ $post->likes->count() }}</p>
+
+    <p>
+        @auth
+            @if ($post->isLikedBy(auth()->user()))
+                <form action="{{ route('like.destroy', $post) }}" method="POST" style="display:inline">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit">Unlike</button>
+                </form>
+            @else
+                <form action="{{ route('like.store', $post) }}" method="POST" style="display:inline">
+                    @csrf
+                    <button type="submit">Like</button>
+                </form>
+            @endif
+        @else
+            <p><a href="{{ route('login') }}">Log in</a> to like this post.</p>
+        @endauth
+    </p>
+
     <p>
         @auth
         @if (auth()->id() === $post->user_id)
@@ -57,7 +78,7 @@
     @foreach ($post->comments as $comment)
         <div style="margin-top: 10px; border-top: 1px solid #ccc; padding-top: 5px;">
             <p>
-                <strong>{{ $comment->user->name }}</strong> said:
+                <strong>{{ $comment->user->name }}</strong> replied:
             </p>
             <p>{{ $comment->body }}</p>
 
