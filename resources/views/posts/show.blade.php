@@ -39,7 +39,42 @@
         @endauth
     </p>
 
-    <p></p>
+    <p>Comments:</p>
+
+    @auth
+        <form method="POST" action="{{ route('comments.store', $post) }}">
+            @csrf
+            <p>
+                <label for="body">Add a comment:</label><br>
+                <textarea name="body" id="body">{{ old('body') }}</textarea>
+            </p>
+            <button type="submit">Post Comment</button>
+        </form>
+    @else
+        <p><a href="{{ route('login') }}">Log in</a> to comment.</p>
+    @endauth
+
+    @foreach ($post->comments as $comment)
+        <div style="margin-top: 10px; border-top: 1px solid #ccc; padding-top: 5px;">
+            <p>
+                <strong>{{ $comment->user->name }}</strong> said:
+            </p>
+            <p>{{ $comment->body }}</p>
+
+            @auth
+                @if (auth()->id() === $comment->user_id)
+                    <form action="{{ route('comments.destroy', $comment) }}" method="POST" style="display:inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" onclick="return confirm('Delete this comment?');">
+                            Delete
+                        </button>
+                    </form>
+                @endif
+            @endauth
+        </div>
+    @endforeach
+
 
     <p><a href="{{ route('posts.index') }}">Back to All Posts</a></p>    
 @endsection
