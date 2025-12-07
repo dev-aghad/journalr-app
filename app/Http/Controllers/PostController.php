@@ -34,14 +34,20 @@ class PostController extends Controller
             'body' => 'string|required|max:20000',
         ]);
 
-        $p = new Post;
-        $p->title = $validatedData['title'];
-        $p->body = $validatedData['body'];
-        $p->user_id = auth()->id();
-        $p->save();
+        $post = new Post;
+        $post->title = $validatedData['title'];
+        $post->body = $validatedData['body'];
+        $post->user_id = auth()->id();
+        
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('post_images', 'public');
+            $post->image_path = $path;
+        }   
+        
+        $post->save();
         
         session()->flash('message', 'Post successfully created.');
-        return redirect()->route('posts.index', $p);
+        return redirect()->route('posts.index', $post);
     }
 
     /**
@@ -81,6 +87,12 @@ class PostController extends Controller
 
         $post->title = $validatedData['title'];
         $post->body  = $validatedData['body'];
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('post_images', 'public');
+            $post->image_path = $path;
+        }
+
         $post->save();
 
         return redirect()->route('posts.show', $post)

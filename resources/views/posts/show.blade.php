@@ -31,6 +31,11 @@
                     <button type="submit">Delete Post</button>
             </form>
         @endif
+        @if ($post->image_path)
+            <img src="{{ asset('storage/' . $post->image_path) }}" 
+                alt="Post Image" 
+                class="mb-4 rounded shadow">
+        @endif
         @endauth
     </p>
 

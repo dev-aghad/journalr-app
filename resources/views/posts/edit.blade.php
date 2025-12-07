@@ -5,24 +5,27 @@
 @section('content')
     <p>Edit Post</p>
 
-    <form method="POST" action="{{ route('posts.update', $post) }}">
-        @csrf
-        @method('PUT')
+    <form method="POST" action="{{ route('posts.update', $post) }}" 
+        enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
 
-        <p>
-            Title:
-            <input type="text" name="title" 
-                value="{{ old('title', $post->title) }}">
-        </p>
+            <p>
+                Title:
+                <input type="text" name="title" 
+                    value="{{ old('title', $post->title) }}">
+            </p>
 
-        <p>
-            Content:
-            <input type="text" name="body" 
-                value="{{ old('body', $post->body) }}">
-        </p>
+            <p>
+                Content:
+                <input type="text" name="body" 
+                    value="{{ old('body', $post->body) }}">
+            </p>
 
-        <p>
-            <button type="submit">Update Post</button>
-        </p>
+            <p><input type="file" name="image"></p>
+
+            <p>
+                <button type="submit">Update Post</button>
+            </p>
     </form>
 @endsection
