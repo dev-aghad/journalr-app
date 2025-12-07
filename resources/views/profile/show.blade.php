@@ -50,6 +50,10 @@
                     {{ $comment->body }}
     
                     <br>
+
+                    <p>{{ $post->likes->count() }} likes</p>
+
+                    <br>
                 </li>
             @endforeach
         </ul>
