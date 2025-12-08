@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use App\Mail\CommentOnPostMail;
+use Illuminate\Support\Facades\Mail;
 
 class CommentController extends Controller
 {
@@ -40,7 +42,16 @@ class CommentController extends Controller
 
         $comment->save();
 
-        return redirect()->route('posts.show', $post);
+        $postOwner = $post->user;
+
+        if ($postOwner && $postOwner->email_verified_at) {
+        Mail::to($postOwner->email)->send(
+            new CommentOnPostMail($post, $comment)
+        );
+    }
+
+        return redirect()->route('posts.show', $post)
+            ->with('success', 'Comment added');
     }
 
     /**

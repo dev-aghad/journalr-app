@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use App\Mail\LikeOnPostMail;
+use Illuminate\Support\Facades\Mail;
 
 class LikeController extends Controller
 {
@@ -33,6 +35,17 @@ class LikeController extends Controller
 
         if (!$post->isLikedBy($user)) {
             $post->likes()->create(['user_id' => $user->id,]);
+        }
+
+        $postOwner = $post->user;
+
+        if ($postOwner 
+            && $postOwner->id !== $user->id 
+            && $postOwner->email_verified_at) {
+
+            Mail::to($postOwner->email)->send(
+                new LikeOnPostMail($post, $user)
+            );
         }
 
         return back();
