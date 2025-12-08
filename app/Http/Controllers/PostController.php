@@ -17,12 +17,18 @@ class PostController extends Controller
     {
         $tag = $request->query('tag');
 
+        $query = Post::orderBy('created_at', 'desc');
+
         if ($tag) {
-            $posts = Post::whereHas('tags', function ($query) use ($tag) {
-                $query->where('id', $tag);
-            })->get();
-        } else {
-            $posts = Post::get();
+            $posts = Post::whereHas('tags', function ($q) use ($tag) {
+                $q->where('id', $tag);
+            });
+        }
+
+        $posts = $query->paginate(5);
+
+        if ($tag) {
+        $posts->appends(['tag' => $tag]);
         }
 
         $tags = Tag::all();

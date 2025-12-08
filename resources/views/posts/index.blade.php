@@ -33,4 +33,8 @@
             </a>
         @endforeach
     </ul>
+
+    <div class="mt-4 text-sm">
+        {{ $posts->links() }}
+    </div>
 @endsection
