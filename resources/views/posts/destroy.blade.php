@@ -5,7 +5,7 @@
 @section('content')
     <p>Deleting an old post:</p>
     @auth
-        @if (auth()->id() === $post->user_id)
+        @if (auth()->id() === $post->user_id || auth()->user()->isAdmin())
             <a href="{{ route('posts.edit', $post) }}">Edit</a>
 
             <form method="POST" action="{{ route('posts.destroy', $post) }}" 

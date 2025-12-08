@@ -5,6 +5,14 @@
 @section('content')
     <p><b>{{ $user->name }}</b></p>
 
+    <p><b>Account Type:</b> 
+    @if ($user->role === 'admin')
+        Administrator
+    @else
+        User
+    @endif
+    </p>
+
     <img src="{{ asset('storage/profile_pictures/default.jpg') }}"
      alt="Profile Picture"
      style="max-width:150px;">

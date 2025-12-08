@@ -46,7 +46,7 @@
     
     <p>
         @auth
-        @if (auth()->id() === $post->user_id)
+        @if (auth()->id() === $post->user_id || auth()->user()->isAdmin())
             <form action="{{ route('posts.destroy', $post) }}" method="POST" 
                 onsubmit="return confirm('Delete this post?');">
                     @csrf
@@ -100,7 +100,7 @@
                     </form>
                 @endif
 
-                @if (auth()->id() === $comment->user_id)
+                @if (auth()->id() === $comment->user_id || auth()->user()->isAdmin())
                     <form action="{{ route('comments.destroy', $comment) }}" method="POST" style="display:inline">
                         @csrf
                         @method('DELETE')
