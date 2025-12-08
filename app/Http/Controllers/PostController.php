@@ -20,16 +20,12 @@ class PostController extends Controller
         $query = Post::orderBy('created_at', 'desc');
 
         if ($tag) {
-            $posts = Post::whereHas('tags', function ($q) use ($tag) {
+            $query = Post::whereHas('tags', function ($q) use ($tag) {
                 $q->where('id', $tag);
             });
         }
 
-        $posts = $query->paginate(5);
-
-        if ($tag) {
-        $posts->appends(['tag' => $tag]);
-        }
+        $posts = $query->paginate(5)->withQueryString();
 
         $tags = Tag::all();
 
