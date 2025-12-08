@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Tag;
 
+use App\Services\QuoteService;
+
 class PostController extends Controller
 {
     /**
@@ -25,17 +27,25 @@ class PostController extends Controller
 
         $tags = Tag::all();
 
-        return view('posts.index', ['posts'=>$posts, 
-            'tags'=>$tags,'tag'=>$tag,]);
+        return view('posts.index', [
+            'posts'=>$posts, 
+            'tags'=>$tags,
+            'tag'=>$tag,
+        ]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(QuoteService $quoteService)
     {
         $tags = Tag::all();
-        return view('posts.create', compact('tags'));
+        $quote = $quoteService->getDailyQuote();
+
+        return view('posts.create', [
+            'tags'=>$tags,
+            'quote'=>$quote,
+        ]);
     }
 
     /**

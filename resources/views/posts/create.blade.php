@@ -3,6 +3,13 @@
 @section('title', 'Create a New Post')
 
 @section('content')
+    @if(isset($quote))
+        <div class="p-4 mb-4 bg-gray-100 border rounded">
+            <b>Daily Quote:</b>
+            <p>{{ $quote }}</p>
+        </div>
+    @endif
+
     <p>Creating a post:</p>
     <form method="POST" action="{{ route('posts.store') }}" 
         enctype="multipart/form-data">
