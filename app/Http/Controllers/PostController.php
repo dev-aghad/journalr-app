@@ -4,16 +4,29 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Tag;
 
 class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::get();
-        return view('posts.index', ['posts'=>$posts]);
+        $tag = $request->query('tag');
+
+        if ($tag) {
+            $posts = Post::whereHas('tags', function ($query) use ($tag) {
+                $query->where('id', $tag);
+            })->get();
+        } else {
+            $posts = Post::get();
+        }
+
+        $tags = Tag::all();
+
+        return view('posts.index', ['posts'=>$posts, 
+            'tags'=>$tags,'tag'=>$tag,]);
     }
 
     /**
