@@ -32,7 +32,7 @@ class CommentController extends Controller
     public function store(Request $request, Post $post)
     {
         $validatedData = $request->validate([
-            'body' => 'required|string',
+            'body' => 'required|string|max:2000',
         ]);
 
         $comment = new Comment;
@@ -48,6 +48,14 @@ class CommentController extends Controller
         Mail::to($postOwner->email)->send(
             new CommentOnPostMail($post, $comment)
         );
+        }
+
+        if ($request->ajax()) {
+        $html = view('comments._single', compact('comment'))->render();
+
+        return response()->json([
+            'html' => $html,
+        ]);
     }
 
         return redirect()->route('posts.show', $post)

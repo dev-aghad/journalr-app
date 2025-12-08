@@ -91,10 +91,6 @@
                     </button>
                 </form>
             @endif
-        @else
-            <p class="text-xs text-gray-600">
-                <a href="{{ route('login') }}" class="text-indigo-600 hover:underline">Log in</a> to like this post.
-            </p>
         @endauth
     </div>
 
@@ -110,71 +106,19 @@
                 </label>
                 <textarea name="body" id="body" rows="3"
                           class="mt-1 w-full border border-gray-300 rounded px-3 py-2 text-sm
-                                 focus:ring-indigo-500 focus:border-indigo-500">{{ old('body') }}</textarea>
+                                 focus:ring-indigo-500 focus:border-indigo-500"></textarea>
             </div>
             <button type="submit"
-                    class="block mb-6 !bg-gray-600 text-grey rounded-lg p-4 text-center shadow hover:bg-gray-100 cursor-pointer transition">
-                Post Comment
+                class="block mb-6 !bg-gray-600 text-grey 
+                rounded-lg p-4 text-center shadow hover:bg-gray-100 cursor-pointer transition">
+                    Post Comment
             </button>
         </form>
-    @else
-        <p class="mb-4 text-sm text-gray-600">
-            <a href="{{ route('login') }}" class="text-indigo-600 hover:underline">Log in</a> to comment.
-        </p>
     @endauth
 
     <div id="comments-list" class="space-y-3">
         @foreach ($post->comments as $comment)
-            <div class="border border-gray-200 rounded-md p-3">
-                <p class="text-sm text-gray-600 mb-1">
-                    <a href="{{ route('profile.show', $comment->user) }}"
-                       class="font-semibold hover:underline">
-                        {{ $comment->user->name }}
-                    </a>
-                    replied
-                </p>
-
-                <p class="text-sm text-gray-800 mb-2">
-                    {{ $comment->body }}
-                </p>
-
-                <div class="flex items-center space-x-3 text-xs text-gray-600">
-                    <span>Likes: <span class="font-semibold">{{ $comment->likes->count() }}</span></span>
-
-                    @auth
-                        @if ($comment->isLikedBy(auth()->user()))
-                            <form action="{{ route('comments.unlike', $comment) }}" method="POST" class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit"
-                                        class="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300">
-                                    Unlike
-                                </button>
-                            </form>
-                        @else
-                            <form action="{{ route('comments.like', $comment) }}" method="POST" class="inline">
-                                @csrf
-                                <button type="submit"
-                                        class="px-2 py-1 bg-indigo-600 text-grey rounded hover:bg-indigo-700">
-                                    Like
-                                </button>
-                            </form>
-                        @endif
-
-                        @if (auth()->id() === $comment->user_id || auth()->user()->isAdmin())
-                            <form action="{{ route('comments.destroy', $comment) }}" method="POST" class="inline"
-                                  onsubmit="return confirm('Delete this comment?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit"
-                                        class="text-red-600 hover:underline">
-                                    Delete
-                                </button>
-                            </form>
-                        @endif
-                    @endauth
-                </div>
-            </div>
+            @include('comments._single', ['comment' => $comment])
         @endforeach
     </div>
 
@@ -183,5 +127,41 @@
             Back to All Posts
         </a>
     </div>
+
+    @auth
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('comment-form');
+            const commentsList = document.getElementById('comments-list');
+            const token = document.querySelector('meta[name="csrf-token"]').content;
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const textarea = document.getElementById('body');
+                const body = textarea.value.trim();
+
+                if (!body) return;
+
+                const response = await fetch(form.action, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json",
+                        "X-CSRF-TOKEN": token,
+                        "X-Requested-With": "XMLHttpRequest"
+                    },
+                    body: JSON.stringify({ body })
+                });
+
+                const data = await response.json();
+
+                commentsList.insertAdjacentHTML("afterbegin", data.html);
+
+                textarea.value = '';
+            });
+        });
+    </script>
+    @endauth
 
 @endsection
