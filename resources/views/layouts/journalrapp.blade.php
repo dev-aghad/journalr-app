@@ -24,6 +24,15 @@
                         </div>
 
                         <div class="flex items-center space-x-8">
+                            @auth
+                                @if (auth()->user()->isAdmin())
+                                    <a href="{{ route('tags.create') }}"
+                                    class="text-sm font-medium text-gray-600 hover:text-gray-900">
+                                        Create Tag
+                                    </a>    
+                                @endif
+                            @endauth
+
                             <a href="{{ route('posts.index') }}"
                                class="text-sm font-medium text-gray-600 hover:text-gray-900">
                                 Posts

@@ -71,7 +71,8 @@
 
         <div class="flex items-center space-x-4">
             <button type="submit"
-                    class="block mb-6 !bg-gray-600 text-grey rounded-lg p-4 text-center shadow hover:bg-gray-100 cursor-pointer transition">
+                    class="block mb-6 !bg-gray-600 text-grey rounded-lg p-4 
+                    text-center shadow hover:bg-gray-100 cursor-pointer transition">
                 Create Post
             </button>
         </div>

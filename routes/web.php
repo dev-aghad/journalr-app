@@ -4,6 +4,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -33,6 +34,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     
     Route::post('/comments/{comment}/like', [LikeController::class, 'storeComment'])->name('comments.like');
     Route::delete('/comments/{comment}/like', [LikeController::class, 'destroyComment'])->name('comments.unlike');
+
+    Route::get('/tags/create', [TagController::class, 'create'])->name('tags.create');
+    Route::post('/tags', [TagController::class, 'store'])->name('tags.store');
 });
 
 Route::get('/dashboard', function () {
