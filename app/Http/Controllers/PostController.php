@@ -34,7 +34,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        $tags = Tag::all();
+        return view('posts.create', compact('tags'));
     }
 
     /**
@@ -58,6 +59,10 @@ class PostController extends Controller
         }   
         
         $post->save();
+
+        if ($request->has('tags')) {
+            $post->tags()->sync($request->tags);
+        }
         
         session()->flash('message', 'Post successfully created.');
         return redirect()->route('posts.index', $post);
@@ -81,7 +86,10 @@ class PostController extends Controller
             abort(403);
         }
 
-        return view('posts.edit', compact('post'));
+        $tags = Tag::all();
+        $selectedTags = $post->tags->pluck('id')->toArray();
+
+        return view('posts.edit', compact('post', 'tags', 'selectedTags'));
     }
 
     /**
@@ -107,6 +115,12 @@ class PostController extends Controller
         }
 
         $post->save();
+
+        if ($request->has('tags')) {
+            $post->tags()->sync($request->tags);
+        } else {
+            $post->tags()->sync([]);
+        }
 
         return redirect()->route('posts.show', $post)
             ->with('success', 'Post updated successfully.');

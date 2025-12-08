@@ -113,6 +113,16 @@
         </div>
     @endforeach
 
+    @if ($post->tags->count())
+    <p>
+        <b>Tags:</b>
+        @foreach ($post->tags as $tag)
+            <a href="{{ route('posts.index', ['tag' => $tag->id]) }}">
+                {{ $tag->name }}
+            </a>
+        @endforeach
+    </p>
+@endif
 
     <p><a href="{{ route('posts.index') }}">Back to All Posts</a></p>    
 @endsection

@@ -51,7 +51,7 @@
     
                     <br>
 
-                    <p>{{ $post->likes->count() }} likes</p>
+                    <p>{{ $comment->likes->count() }} likes</p>
 
                     <br>
                 </li>

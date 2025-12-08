@@ -12,6 +12,15 @@
             <p>Content: <input type="text" name="body"
                 value="{{ old('body') }}"></p>
             <p><input type="file" name="image"></p>
+            <p>Select Tags:</p>
+
+            @foreach ($tags as $tag)
+                <label style="margin-right: 10px;">
+                <input type="checkbox" name="tags[]" value="{{ $tag->id }}">
+                {{ $tag->name }}
+                </label>
+            @endforeach
+
             <p><input type="submit" name="Create Post"></p>
             <a href="{{ route('posts.index') }}">Back to All Posts</a>
     </form>

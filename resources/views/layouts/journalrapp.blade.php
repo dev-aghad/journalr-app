@@ -6,18 +6,24 @@
     <body>
         <h1>Journalr - @yield('title')</h1>
 
+        @auth
+            <a href="{{ route('profile.show', auth()->user()) }}">My Profile</a>
+        @endauth
+
+        <hr>
+
+        @auth
+            <form method="POST" action="{{ route('logout') }}">
+            @csrf
+                <button type="submit" class="text-red-500 hover:underline">
+                    Logout
+                </button>
+            </form>
+        @endauth
+
         @if (session('message'))
             <p><b>{{ session('message') }}</b></p>
         @endif
-
-        @auth
-        <form method="POST" action="{{ route('logout') }}">
-        @csrf
-            <button type="submit" class="text-red-500 hover:underline">
-                Logout
-            </button>
-        </form>
-        @endauth
 
         @if ($errors->any())
             <div>

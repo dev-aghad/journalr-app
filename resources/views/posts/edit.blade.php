@@ -24,6 +24,18 @@
 
             <p><input type="file" name="image"></p>
 
+            <p>Edit Tags:</p>
+            @foreach ($tags as $tag)
+                <label style="margin-right: 10px;">
+                    <input 
+                        type="checkbox" 
+                        name="tags[]" 
+                        value="{{ $tag->id }}"
+                        {{ in_array($tag->id, $selectedTags) ? 'checked' : '' }}>
+                    {{ $tag->name }}
+                </label>
+            @endforeach
+
             <p>
                 <button type="submit">Update Post</button>
             </p>

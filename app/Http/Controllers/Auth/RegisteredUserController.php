@@ -41,6 +41,11 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        $user->profile()->create([
+            'bio' => 'This user has not written a bio yet.',
+            'profile_picture' => 'default.png',
+        ]);
+
         event(new Registered($user));
 
         Auth::login($user);
