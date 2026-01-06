@@ -1,59 +1,130 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Journalr
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Journalr is a full-stack Laravel web application that allows users to create journal-style posts with optional images, comment on posts, like posts and comments, and browse content by tags. The application includes authentication, user profiles, role-based permissions, AJAX functionality, and integration with an external API. 
 
-## About Laravel
+--- 
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features 
+- User authentication (Laravel Breeze)
+- Create, edit, and delete posts with image uploads
+- Comment on posts with **AJAX-based submission** (no page reload)
+- Like posts and comments (polymorphic relationships)
+- Tag system with filtering (many-to-many relationship) - User profiles displaying posts and comments - Role-based permissions (Admin / User) - Email notifications for post interactions (Mailpit for local testing) - Responsive UI styled with Tailwind CSS
+- Pagination for posts
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+--- 
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Tech Stack 
+- Laravel (PHP)
+- MySQL
+- Blade Templates
+- JavaScript (Fetch API / AJAX)
+- Tailwind CSS
+- Laravel Eloquent ORM
+- Git
 
-## Learning Laravel
+--- 
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Getting the Project Running Locally 
+These steps allow you to run the project locally and view the website. 
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### All platforms 
+- **Docker Desktop** installed and running
 
-## Laravel Sponsors
+### Windows (recommended) 
+- **WSL2** enabled (Ubuntu recommended)
+- Docker Desktop → Settings → Resources → **WSL Integration** enabled for your distro
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+> On Windows, run the commands below inside your WSL terminal. 
 
-### Premium Partners
+## Local Setup (Recommended): Laravel Sail 
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 1) Clone the Repository
+```bash
+git clone https://github.com/<your-username>/<your-repo>.git
+cd <your-repo>
+```
 
-## Contributing
+### 2) Create .env
+```bash
+cp .env.example .env
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 3) Install PHP dependencies (Composer) 
+If you don't have Composer installed locally, this will run Composer inside a container:
+```bash
+docker run --rm \
+  -u "$(id -u):$(id -g)" \
+  -v "$(pwd):/var/www/html" \
+  -w /var/www/html \
+  laravelsail/php82-composer:latest \
+  composer install --no-interaction
+```
 
-## Code of Conduct
+### 4) Start the containers
+```bash
+./vendor/bin/sail up -d
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 5) Storage Link (Required for Images) 
+This is to enable posted images to display correctly.
+```bash
+./vendor/bin/sail artisan storage:link
+```
+Other dependencies (mainly for frontend assets)
+```bash
+./vendor/bin/sail npm install
+./vendor/bin/sail npm run build
+```
 
-## Security Vulnerabilities
+### 6) Generate app key
+```bash
+./vendor/bin/sail artisan key:generate
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 7) Run Migrations and Seeders 
+Create the database tables and populate them with sample data (already included).
+```bash
+./vendor/bin/sail artisan migrate
+./vendor/bin/sail artisan db:seed
+```
 
-## License
+Visit the application in your browser: http://localhost (By default Sail maps the app to port 80) 
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+MailPit dashboard: http://localhost:8025 (for verifying email) 
+
+--- 
+
+## Strongly Recommended: Demo Credentials 
+The database is seeded with sample users for testing however you can add your own: 
+
+**Admin account** 
+Email: admin@journalr.test
+- Password: password 
+**Standard user** 
+Email: user@journalr.test
+- Password: password 
+
+--- 
+
+## Useful Commands 
+Stop containers (for when application is not in use):
+```bash
+./vendor/bin/sail down
+```
+Open a shell in Tinker (to run database commands directly):
+```bash
+./vendor/bin/sail artisan tinker
+```
+## Troubleshooting 
+### Port already in use Sail uses APP_PORT (defaults to 80). 
+If port 80 is in use, edit the .env file:
+```bash
+APP_PORT=8080
+```
+Then restart:
+```bash
+./vendor/bin/sail down
+./vendor/bin/sail up -d
+```
+Open http://localhost:8080
