@@ -61,6 +61,7 @@ docker run --rm \
   laravelsail/php82-composer:latest \
   composer install --no-interaction
 ```
+If composer does not install, make sure php is installed on WSL.
 
 ### 4) Start the containers
 ```bash
