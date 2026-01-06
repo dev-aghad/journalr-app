@@ -33,6 +33,7 @@ These steps allow you to run the project locally and view the website.
 
 ### Windows (recommended) 
 - **WSL2** enabled (Ubuntu recommended with version 24.04.1 LTS from Microsoft Store used for testing)
+(Refer to https://docs.docker.com/desktop/features/wsl/)
 - Docker Desktop → Settings → Resources → **WSL Integration** enabled for your distro
 
 > On Windows, run the commands below inside your WSL terminal. 
@@ -128,3 +129,4 @@ Then restart:
 ./vendor/bin/sail up -d
 ```
 Open http://localhost:8080
+
