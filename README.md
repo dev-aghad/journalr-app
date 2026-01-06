@@ -32,7 +32,7 @@ These steps allow you to run the project locally and view the website.
 - **Docker Desktop** installed and running
 
 ### Windows (recommended) 
-- **WSL2** enabled (Ubuntu recommended)
+- **WSL2** enabled (Ubuntu recommended with version 24.04.1 LTS from Microsoft Store used for testing)
 - Docker Desktop → Settings → Resources → **WSL Integration** enabled for your distro
 
 > On Windows, run the commands below inside your WSL terminal. 
@@ -41,8 +41,8 @@ These steps allow you to run the project locally and view the website.
 
 ### 1) Clone the Repository
 ```bash
-git clone https://github.com/<your-username>/<your-repo>.git
-cd <your-repo>
+git clone https://github.com/dev-aghad/journalr-app.git
+cd journalr-app
 ```
 
 ### 2) Create .env
