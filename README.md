@@ -1,3 +1,10 @@
+# NOTE
+You cannot currently get past the login stage due to the .env.example file which needs updating from the default
+
+This means that the application does not currently work however I have video proof of it working here: https://drive.google.com/file/d/1vxb6cclHb6JA1slAExZXAUznSN19yBJJ/view?usp=drive_link
+
+I cannot update the application for the time being due to location constraints but this will be done eventually
+
 # Journalr
 
 Journalr is a full-stack Laravel web application that allows users to create journal-style posts with optional images, comment on posts, like posts and comments, and browse content by tags. The application includes authentication, user profiles, role-based permissions, AJAX functionality, and integration with an external API. 
@@ -90,6 +97,9 @@ Create the database tables and populate them with sample data (already included)
 ./vendor/bin/sail artisan migrate
 ./vendor/bin/sail artisan db:seed
 ```
+### 8) Replace .env. file with .env.example file
+Simply copy and paste and contents of the .env.example file into the .env file as this is what is run (READ NOTE ON TOP OF PAGE)
+
 
 Visit the application in your browser: http://localhost (By default Sail maps the app to port 80) 
 
